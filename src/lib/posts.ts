@@ -8,6 +8,7 @@ export type PostMeta = {
   slug: string;
   title: string;
   date: string; // ISO
+  tags?: string[];
   summary: string;
 };
 
@@ -21,6 +22,7 @@ export async function getAllPosts(): Promise<PostMeta[]> {
         slug: file.replace(/\.mdx?$/, ""),
         title: data.title,
         date: data.date,
+        tags: data.tags,
         summary: data.summary ?? "",
       };
     })
