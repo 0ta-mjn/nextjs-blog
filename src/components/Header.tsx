@@ -16,7 +16,7 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="flex items-center justify-center px-4 sticky top-0 z-50 bg-accent dark:bg-accent/30">
+    <header className="flex w-full items-center justify-center px-4 sticky top-0 z-50 bg-header/60 backdrop-blur border-b border-b-muted">
       <div className="container flex justify-between items-center h-14 gap-2">
         <Link href="/" className="flex items-center gap-2">
           <span className="text-2xl font-bold font-mono">MN</span>
