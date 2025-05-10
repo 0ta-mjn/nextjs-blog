@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header"; // Headerコンポーネントをインポート
 import Footer from "@/components/Footer"; // Footerコンポーネントをインポート
 import { ThemeProvider } from "next-themes";
+import { SITE_TITLE } from "@/const";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -16,7 +17,7 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "mininjin's Tech Blog",
+  title: SITE_TITLE,
   description: "A blog about my tech journey",
 };
 

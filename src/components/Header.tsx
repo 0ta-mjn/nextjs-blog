@@ -11,6 +11,8 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { usePathname } from "next/navigation";
+import { GITHUB_ACCOUNT_URL, SITE_TITLE, TWITTER_ACCOUNT_URL } from "@/const";
+import Logo from "./logo.svg";
 
 export default function Header() {
   const pathname = usePathname();
@@ -18,10 +20,18 @@ export default function Header() {
   return (
     <header className="flex w-full items-center justify-center px-4 sticky top-0 z-50 bg-header/60 backdrop-blur border-b border-b-muted">
       <div className="container flex justify-between items-center h-14 gap-2">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl font-bold font-mono">MN</span>
+        <Link href="/" className="flex items-center gap-4">
+          <div className="flex items-center justify-center p-1.5 rounded-lg bg-stone-700 dark:bg-stone-200">
+            <Logo
+              width={24}
+              height={24}
+              fill="currentColor"
+              className="text-background"
+            />
+          </div>
+
           <span className="text-xl font-semibold hidden md:inline">
-            mininjin&apos;s Tech Blog
+            {SITE_TITLE}
           </span>
         </Link>
 
@@ -36,7 +46,7 @@ export default function Header() {
 
         <nav className="flex items-center">
           <a
-            href="https://github.com/mininjin"
+            href={GITHUB_ACCOUNT_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center cursor-pointer"
@@ -47,7 +57,7 @@ export default function Header() {
           </a>
 
           <a
-            href="https://x.com/0ta_Utan"
+            href={TWITTER_ACCOUNT_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center cursor-pointer"
