@@ -14,7 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function PostCardList({ posts }: { posts: PostMeta[] }) {
-  return (
+  return posts.length > 0 ? (
     <ul className="grid w-full gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
       {posts.map((p) => (
         <li key={p.slug}>
@@ -22,6 +22,10 @@ export default function PostCardList({ posts }: { posts: PostMeta[] }) {
         </li>
       ))}
     </ul>
+  ) : (
+    <div className="flex items-center">
+      <p className="text-muted-foreground text-lg">No posts found</p>
+    </div>
   );
 }
 

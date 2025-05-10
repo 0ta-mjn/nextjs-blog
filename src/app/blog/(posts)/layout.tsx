@@ -1,13 +1,19 @@
-import { getAllCategories, getAllPosts } from "@/lib/posts";
-import { USERNAME } from "@/const";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import PostCardList from "@/components/PostCard";
+import { USERNAME } from "@/const";
+import { getAllCategories } from "@/lib/posts";
+import { Metadata } from "next";
+import Link from "next/link";
 
-export const revalidate = false; // 完全 SSG
+export const metadata: Metadata = {
+  title: `${USERNAME}'s Blog`,
+  description: "A blog about my tech journey",
+};
 
-export default async function PostsPage() {
-  const posts = await getAllPosts();
+export default async function PostsLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const categories = await getAllCategories();
 
   return (
@@ -30,7 +36,7 @@ export default async function PostsPage() {
         ))}
       </div>
 
-      <PostCardList posts={posts} />
+      {children}
     </main>
   );
 }

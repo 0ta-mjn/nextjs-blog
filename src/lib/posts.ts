@@ -21,19 +21,46 @@ export type PostMeta = {
 const sortByDate = (posts: PostMeta[]) =>
   posts.sort((a, b) => dayjs(b.date).diff(dayjs(a.date)));
 
-export async function getAllPosts(): Promise<PostMeta[]> {
-  const posts = await getPosts();
+type PostListResult = {
+  data: PostMeta[];
+  hasNextPage: boolean;
+  total: number;
+};
+
+export async function getAllPosts(
+  page?: number,
+  limit?: number
+): Promise<PostListResult> {
+  const { data: posts } = await getPosts();
 
   const categories = await getAllCategories();
   for (const category of categories) {
-    const postsInCategory = await getPosts(category.name);
+    const { data: postsInCategory } = await getPosts(category.name);
     posts.push(...postsInCategory);
   }
 
-  return sortByDate(posts);
+  let result = sortByDate(posts);
+
+  result =
+    page != undefined && limit != undefined
+      ? result.slice(page * limit, (page + 1) * limit)
+      : result;
+
+  return {
+    data: result,
+    hasNextPage:
+      page != undefined && limit != undefined
+        ? posts.length > (page + 1) * limit
+        : false,
+    total: posts.length,
+  };
 }
 
-export async function getPosts(category?: string): Promise<PostMeta[]> {
+export async function getPosts(
+  category?: string,
+  page?: number,
+  limit?: number
+): Promise<PostListResult> {
   const dir = category
     ? path.join(POSTS_DIR, category.replace(/^\//, ""))
     : POSTS_DIR;
@@ -58,12 +85,41 @@ export async function getPosts(category?: string): Promise<PostMeta[]> {
     })
   );
 
-  return sortByDate(posts);
+  let result = sortByDate(posts);
+  result =
+    page != undefined && limit != undefined
+      ? result.slice(page * limit, (page + 1) * limit)
+      : result;
+
+  return {
+    data: result,
+    hasNextPage:
+      page != undefined && limit != undefined
+        ? posts.length > (page + 1) * limit
+        : false,
+    total: posts.length,
+  };
 }
 
-export async function getPostsFromTag(tag: string): Promise<PostMeta[]> {
-  const posts = await getAllPosts();
-  return posts.filter((p) => p.tags?.includes(tag));
+export async function getPostsFromTag(
+  tag: string,
+  page?: number,
+  limit?: number
+): Promise<PostListResult> {
+  const { data } = await getAllPosts();
+  const posts = data.filter((p) => p.tags?.includes(tag));
+  const result =
+    page != undefined && limit != undefined
+      ? posts.slice(page * limit, (page + 1) * limit)
+      : posts;
+  return {
+    data: result,
+    hasNextPage:
+      page != undefined && limit != undefined
+        ? posts.length > (page + 1) * limit
+        : false,
+    total: posts.length,
+  };
 }
 
 export type CategoryData = {
@@ -79,7 +135,7 @@ export async function getAllCategories(): Promise<CategoryData[]> {
     .map((f) => f.replace(POSTS_DIR, "").replace(/^\//, ""));
   const categoryMap = new Map<string, CategoryData>();
   for (const category of categories) {
-    const posts = await getPosts(category);
+    const { data: posts } = await getPosts(category);
     const latestPost = posts[0] ?? null;
     categoryMap.set(category, {
       name: category,
@@ -93,7 +149,7 @@ export async function getAllCategories(): Promise<CategoryData[]> {
 }
 
 export async function getAllTags(): Promise<string[]> {
-  const posts = await getAllPosts();
+  const { data: posts } = await getAllPosts();
   const tags = posts.reduce<string[]>((acc, { tags = [] }) => {
     for (const tag of tags) {
       if (!acc.includes(tag)) {
@@ -109,7 +165,7 @@ export async function getAllTags(): Promise<string[]> {
 }
 
 export async function getPost(slug: string): Promise<PostMeta> {
-  const posts = await getAllPosts();
+  const { data: posts } = await getAllPosts();
   const post = posts.find((p) => p.slug === slug);
   if (!post) {
     throw new Error(`Post not found: ${slug}`);

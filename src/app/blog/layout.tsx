@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "A blog about my tech journey",
 };
 
-export default function PostsLayout({
+export default function BlogLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

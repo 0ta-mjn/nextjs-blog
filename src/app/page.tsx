@@ -4,9 +4,10 @@ import { GITHUB_REPO_URL, SITE_TITLE, USERNAME } from "@/const";
 import { getAllPosts } from "@/lib/posts";
 import Link from "next/link";
 
+const LATEST_POSTS_COUNT = 12; // Number of latest posts to display
+
 export default async function Home() {
-  const posts = await getAllPosts();
-  const latest12 = posts.slice(0, 12);
+  const { data: posts, hasNextPage } = await getAllPosts(0, LATEST_POSTS_COUNT);
 
   return (
     <main className="container flex flex-col py-8 gap-6">
@@ -45,10 +46,20 @@ export default async function Home() {
       </section>
 
       {/* Latest Posts */}
-      <section className="flex flex-col gap-3 px-4">
+      <section className="flex flex-col gap-6 px-4">
         <h2 className="text-2xl font-bold">Latest Posts</h2>
 
-        <PostCardList posts={latest12} />
+        <PostCardList posts={posts} />
+
+        {hasNextPage && (
+          <div className="flex items-center justify-center">
+            <Link href="/blog">
+              <Button variant="outline" size="xl">
+                Read More
+              </Button>
+            </Link>
+          </div>
+        )}
       </section>
     </main>
   );

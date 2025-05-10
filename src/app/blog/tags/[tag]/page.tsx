@@ -1,30 +1,31 @@
-import { getAllTags, getPostsFromTag } from "@/lib/posts";
-import { USERNAME } from "@/const";
+import { getPostsFromTag } from "@/lib/posts";
 import PostCardList from "@/components/PostCard";
+import PostPagination from "@/components/PostPagination";
+import { BLOG_LIST_PER_PAGE } from "@/const";
 
 export const revalidate = false; // 完全 SSG
-
-export async function generateStaticParams() {
-  const tags = await getAllTags();
-  return tags.map((t) => ({
-    tag: t,
-  }));
-}
 
 export default async function TagPage(props: {
   params: Promise<{ tag: string }>;
 }) {
   const { tag } = await props.params;
-  const posts = await getPostsFromTag(tag);
+  const {
+    data: posts,
+    hasNextPage,
+    total,
+  } = await getPostsFromTag(tag, 0, BLOG_LIST_PER_PAGE);
+
   return (
-    <main className="container flex flex-col py-8 gap-6 px-4">
-      <div className="flex items-center gap-3">
-        <h1 className="text-3xl font-bold">{USERNAME}&apos;s Blog</h1>
-
-        <p className="text-lg">#{tag}</p>
-      </div>
-
+    <>
       <PostCardList posts={posts} />
-    </main>
+
+      {hasNextPage && (
+        <PostPagination
+          total={total}
+          href={`/blog/tags/${tag}`}
+          limit={BLOG_LIST_PER_PAGE}
+        />
+      )}
+    </>
   );
 }

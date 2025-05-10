@@ -1,19 +1,15 @@
-import { getPosts } from "@/lib/posts";
+import { getAllPosts } from "@/lib/posts";
 import PostCardList from "@/components/PostCard";
 import PostPagination from "@/components/PostPagination";
 import { BLOG_LIST_PER_PAGE } from "@/const";
 
-export const revalidate = false; // 完全 SSG
-
-export default async function CategoriesPage(props: {
-  params: Promise<{ category: string }>;
-}) {
-  const { category } = await props.params;
+export default async function PostsPage() {
   const {
     data: posts,
     hasNextPage,
     total,
-  } = await getPosts(category, 0, BLOG_LIST_PER_PAGE);
+  } = await getAllPosts(0, BLOG_LIST_PER_PAGE);
+
   return (
     <>
       <PostCardList posts={posts} />
@@ -21,7 +17,7 @@ export default async function CategoriesPage(props: {
       {hasNextPage && (
         <PostPagination
           total={total}
-          href={`/blog/categories/${category}`}
+          href="/blog/posts"
           limit={BLOG_LIST_PER_PAGE}
         />
       )}

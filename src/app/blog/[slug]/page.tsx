@@ -14,7 +14,7 @@ import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
 export async function generateStaticParams() {
-  const posts = await getAllPosts();
+  const { data: posts } = await getAllPosts();
   return posts.map((p) => ({ slug: p.slug }));
 }
 
