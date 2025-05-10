@@ -172,6 +172,7 @@
   }
 }
 
+/* Blog Article */
 @layer base {
   article {
     @apply font-normal;
@@ -292,5 +293,22 @@
     @apply leading-7;
     @apply border-x;
     @apply border-x-muted-foreground;
+  }
+}
+
+/* Top Hero */
+@theme {
+  --animate-typing-blink: typing-blink 1s ease-in-out infinite;
+
+  @keyframes typing-blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 }
