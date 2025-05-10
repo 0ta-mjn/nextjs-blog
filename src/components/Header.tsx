@@ -36,7 +36,7 @@ export default function Header() {
         </Link>
 
         <nav className="flex flex-1 items-center gap-2 px-4">
-          <Route href="/posts" selected={pathname.startsWith("/posts")}>
+          <Route href="/blog" selected={pathname.startsWith("/blog")}>
             Blog
           </Route>
           <Route href="/about" selected={pathname.startsWith("/about")}>

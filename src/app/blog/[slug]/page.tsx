@@ -1,0 +1,86 @@
+import { MDXRemote } from "next-mdx-remote/rsc"; // MDX の場合
+import { getPostSource, getAllPosts } from "@/lib/posts";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import Link from "next/link";
+import { mdxComponents } from "@/lib/mdx-components";
+import rehypeHighlight from "rehype-highlight";
+import remarkGfm from "remark-gfm";
+
+export async function generateStaticParams() {
+  const posts = await getAllPosts();
+  return posts.map((p) => ({ slug: p.slug }));
+}
+
+export default async function PostPage(props: {
+  params: Promise<{ slug: string }>;
+}) {
+  const params = await props.params;
+  const { source, post } = await getPostSource(params.slug);
+
+  return (
+    <main className="container flex flex-col py-8 gap-12 px-4">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/blog">Blog</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+
+          {post.category && (
+            <>
+              <BreadcrumbSeparator />
+
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href={`/blog/categories/${post.category}`}>
+                    {/* capitalize */}
+                    {post.category.charAt(0).toUpperCase() +
+                      post.category.slice(1)}
+                  </Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+            </>
+          )}
+
+          <BreadcrumbSeparator />
+
+          <BreadcrumbItem>
+            <BreadcrumbPage>{post.title}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <article className="post flex flex-col w-full gap-8">
+        <div className="flex flex-col w-full">
+          <div className="flex items-center gap-3">
+            <time dateTime={post.date}>{post.date}</time>
+          </div>
+
+          <h1>{post.title}</h1>
+        </div>
+
+        <div className="flex w-full flex-col gap-3">
+          <MDXRemote
+            source={source}
+            options={{
+              parseFrontmatter: true,
+              mdxOptions: {
+                rehypePlugins: [rehypeHighlight],
+                remarkPlugins: [remarkGfm],
+              },
+            }}
+            components={mdxComponents}
+          />
+        </div>
+      </article>
+    </main>
+  );
+}

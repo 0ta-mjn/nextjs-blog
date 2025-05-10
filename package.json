@@ -33,6 +33,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
     "gray-matter": "^4.0.3",
+    "highlight.js": "^11.11.1",
     "next-mdx-remote": "^5.0.0",
     "react-icons": "^5.5.0",
     "rehype-highlight": "^7.0.2",

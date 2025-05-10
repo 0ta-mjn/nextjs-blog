@@ -1,28 +1,54 @@
+import PostCardList from "@/components/PostCard";
+import { Button } from "@/components/ui/button";
+import { GITHUB_REPO_URL, SITE_TITLE, USERNAME } from "@/const";
 import { getAllPosts } from "@/lib/posts";
 import Link from "next/link";
 
 export default async function Home() {
   const posts = await getAllPosts();
+  const latest12 = posts.slice(0, 12);
 
   return (
-    <main className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <section className="mx-auto max-w-2xl py-10">
-        <h1 className="text-3xl font-bold mb-6">Blog</h1>
-        <ul className="space-y-4">
-          {posts.map((p) => (
-            <li key={p.slug}>
-              <Link
-                href={`/posts/${p.slug}`}
-                className="text-blue-600 underline"
-              >
-                {p.title}
-              </Link>
-              <small className="block text-gray-500">
-                {new Date(p.date).toLocaleDateString()} – {p.summary}
-              </small>
-            </li>
-          ))}
-        </ul>
+    <main className="container flex flex-col py-8 gap-6">
+      {/* Top Page Hero */}
+      <section className="flex flex-col items-center text-center gap-3 py-8 px-4 md:py-20 md:px-12 md:gap-12">
+        <h1 className="text-5xl font-bold">Welcome to {SITE_TITLE}</h1>
+
+        <div className="flex flex-col gap-3">
+          <p className="text-xl text-muted-foreground">
+            This is a blog and portfolio site built by {USERNAME} using Next.js.
+          </p>
+
+          <p className="text-xl text-muted-foreground">
+            You can find the source code on{" "}
+            <a
+              href={GITHUB_REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
+              GitHub
+            </a>
+            .
+          </p>
+        </div>
+
+        <div className="flex items-center justify-center font-bold gap-6">
+          <Link href="/blog">
+            <Button size="xl">Blog</Button>
+          </Link>
+
+          <Link href="/about">
+            <Button size="xl">About</Button>
+          </Link>
+        </div>
+      </section>
+
+      {/* Latest Posts */}
+      <section className="flex flex-col gap-3 px-4">
+        <h2 className="text-2xl font-bold">Latest Posts</h2>
+
+        <PostCardList posts={latest12} />
       </section>
     </main>
   );

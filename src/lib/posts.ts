@@ -1,37 +1,124 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
+import dayjs from "dayjs";
 
 const POSTS_DIR = path.join(process.cwd(), "posts");
 
-export type PostMeta = {
-  slug: string;
+export type PostFrontmatter = {
   title: string;
   date: string; // ISO
   tags?: string[];
   summary: string;
 };
 
+export type PostMeta = {
+  slug: string;
+  path: string;
+  category?: string;
+} & PostFrontmatter;
+
+const sortByDate = (posts: PostMeta[]) =>
+  posts.sort((a, b) => dayjs(b.date).diff(dayjs(a.date)));
+
 export async function getAllPosts(): Promise<PostMeta[]> {
-  const files = await fs.readdir(POSTS_DIR);
+  const posts = await getPosts();
+
+  const categories = await getAllCategories();
+  for (const category of categories) {
+    const postsInCategory = await getPosts(category.name);
+    posts.push(...postsInCategory);
+  }
+
+  return sortByDate(posts);
+}
+
+export async function getPosts(category?: string): Promise<PostMeta[]> {
+  const dir = category
+    ? path.join(POSTS_DIR, category.replace(/^\//, ""))
+    : POSTS_DIR;
+  const files = await fs.readdir(dir);
+  const filesFiltered = files.filter(
+    (f) => f.endsWith(".md") || f.endsWith(".mdx")
+  );
   const posts = await Promise.all(
-    files.map<Promise<PostMeta>>(async (file) => {
-      const raw = await fs.readFile(path.join(POSTS_DIR, file), "utf8");
+    filesFiltered.map<Promise<PostMeta>>(async (file) => {
+      const filename = path.join(dir, file);
+      const raw = await fs.readFile(filename, "utf8");
       const { data } = matter(raw);
       return {
+        path: filename,
         slug: file.replace(/\.mdx?$/, ""),
         title: data.title,
         date: data.date,
+        category: category,
         tags: data.tags,
         summary: data.summary ?? "",
       };
     })
   );
-  // 新しい順
-  return posts.sort((a, b) => +new Date(b.date) - +new Date(a.date));
+
+  return sortByDate(posts);
+}
+
+export async function getPostsFromTag(tag: string): Promise<PostMeta[]> {
+  const posts = await getAllPosts();
+  return posts.filter((p) => p.tags?.includes(tag));
+}
+
+export type CategoryData = {
+  name: string;
+  postCount: number;
+  latestPost: PostMeta | null;
+};
+
+export async function getAllCategories(): Promise<CategoryData[]> {
+  const files = await fs.readdir(POSTS_DIR);
+  const categories = files
+    .filter((f) => !f.includes("."))
+    .map((f) => f.replace(POSTS_DIR, "").replace(/^\//, ""));
+  const categoryMap = new Map<string, CategoryData>();
+  for (const category of categories) {
+    const posts = await getPosts(category);
+    const latestPost = posts[0] ?? null;
+    categoryMap.set(category, {
+      name: category,
+      postCount: posts.length,
+      latestPost,
+    });
+  }
+  const result = Array.from(categoryMap.values());
+  result.sort((a, b) => a.name.localeCompare(b.name));
+  return result;
+}
+
+export async function getAllTags(): Promise<string[]> {
+  const posts = await getAllPosts();
+  const tags = posts.reduce<string[]>((acc, { tags = [] }) => {
+    for (const tag of tags) {
+      if (!acc.includes(tag)) {
+        acc.push(tag);
+      }
+    }
+    return acc;
+  }, [] as string[]);
+
+  tags.sort((a, b) => a.localeCompare(b));
+
+  return tags;
+}
+
+export async function getPost(slug: string): Promise<PostMeta> {
+  const posts = await getAllPosts();
+  const post = posts.find((p) => p.slug === slug);
+  if (!post) {
+    throw new Error(`Post not found: ${slug}`);
+  }
+  return post;
 }
 
 export async function getPostSource(slug: string) {
-  const file = await fs.readFile(path.join(POSTS_DIR, `${slug}.mdx`), "utf8");
-  return file;
+  const post = await getPost(slug);
+  const source = await fs.readFile(post.path, "utf8");
+  return { source, post };
 }

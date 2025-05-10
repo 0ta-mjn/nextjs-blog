@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "highlight.js/styles/github-dark.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -168,5 +169,128 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer base {
+  article {
+    @apply font-normal;
+    @apply text-base;
+  }
+
+  /* heading */
+  article h1 {
+    @apply text-4xl;
+    @apply font-semibold;
+    @apply py-2;
+  }
+  article h2 {
+    @apply text-3xl;
+    @apply font-semibold;
+    @apply pt-2;
+    @apply pb-4;
+    @apply border-b;
+    @apply border-muted-foreground;
+  }
+  article h3 {
+    @apply text-2xl;
+    @apply font-semibold;
+    @apply py-1;
+  }
+  article h4 {
+    @apply text-xl;
+    @apply font-semibold;
+  }
+  article h5 {
+    @apply text-lg;
+    @apply font-semibold;
+  }
+  article h6 {
+    @apply text-base;
+    @apply font-semibold;
+  }
+
+  /* text style */
+  article p {
+    @apply text-base;
+    @apply leading-7;
+    @apply font-normal;
+    @apply whitespace-pre-wrap;
+  }
+  article strong {
+    @apply font-semibold;
+  }
+  article em {
+    @apply italic;
+  }
+  article s {
+    @apply line-through;
+  }
+  article u {
+    @apply underline;
+  }
+  article a {
+    @apply underline;
+    @apply text-sky-600;
+    .dark & {
+      @apply text-sky-300;
+    }
+  }
+  article code {
+    @apply text-accent-foreground;
+    @apply bg-muted;
+    @apply rounded-sm;
+    @apply p-1;
+  }
+
+  /* list */
+  article ul {
+    @apply list-disc;
+    @apply pl-5;
+  }
+  article ol {
+    @apply list-decimal;
+    @apply pl-5;
+  }
+
+  /* quote */
+  article blockquote {
+    @apply border-l-2;
+    @apply pl-4;
+    @apply py-2;
+    @apply italic;
+    @apply text-muted-foreground;
+    @apply bg-muted;
+  }
+
+  /* Table */
+  article table {
+    @apply border-2;
+    @apply w-full;
+    @apply my-4;
+    @apply border-muted-foreground;
+  }
+  article th {
+    @apply font-semibold;
+    @apply text-base;
+    @apply bg-muted;
+    @apply text-foreground;
+    @apply border-muted-foreground;
+    @apply border-b;
+  }
+  article td {
+    @apply text-left;
+    @apply border-accent;
+    @apply border-b;
+    @apply text-sm;
+    @apply font-normal;
+  }
+  article th,
+  article td {
+    @apply text-left;
+    @apply p-2;
+    @apply leading-7;
+    @apply border-x;
+    @apply border-x-muted-foreground;
   }
 }
