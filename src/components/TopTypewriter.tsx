@@ -7,7 +7,7 @@ const FIRST_TEXT = `This   is   a   blog   and   portfolio   site   built   by  
 const SECOND_TEXT = "You   can   find   the   source   code   on   ";
 const GITHUB_TEXT = "GitHub";
 const FIRST_DELAY = 1000;
-const TYPE_SPEED = 30;
+const TYPE_SPEED = 20;
 const WAIT_FOR_NEXT = 1000;
 
 export default function TopTypewriter() {
@@ -60,14 +60,20 @@ export default function TopTypewriter() {
   );
 
   return (
-    <div className="flex flex-col items-center gap-3 text-xl text-muted-foreground">
-      <div className="flex items-center justify-center gap-2">
-        <p>{firstVisible}</p>
-
-        {(!isEndFirst || isWaiting) && TypingBar}
+    <div className="relative w-full text-xl text-muted-foreground z-10">
+      <div className="flex flex-col items-center justify-center gap-3 invisible">
+        <p>{FIRST_TEXT}</p>
+        <p>
+          {SECOND_TEXT} {GITHUB_TEXT}
+        </p>
       </div>
 
-      <div className="flex items-center justify-center gap-2">
+      <div className="absolute flex flex-col items-center justify-center gap-3 top-0 left-0 size-full">
+        <p>
+          {firstVisible}
+          {(!isEndFirst || isWaiting) && TypingBar}
+        </p>
+
         <p>
           {secondVisible}{" "}
           <a
@@ -79,14 +85,16 @@ export default function TopTypewriter() {
             {githubVisible}
           </a>
           {isEndSecond && <>.</>}
+          {!isEndSecond && isEndFirst && !isWaiting && TypingBar}
         </p>
-
-        {!isEndSecond && isEndFirst && !isWaiting && TypingBar}
       </div>
     </div>
   );
 }
 
 const TypingBar = (
-  <div className="bg-foreground h-[1.414rem] w-[2px] animate-typing-blink" />
+  <>
+    {" "}
+    <span className="inline-block bg-foreground h-[1.414rem] w-[2px] animate-typing-blink translate-y-1" />
+  </>
 );
