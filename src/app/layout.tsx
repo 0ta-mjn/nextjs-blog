@@ -28,6 +28,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" suppressHydrationWarning>
+      <head>
+        <meta name="apple-mobile-web-app-title" content={SITE_TITLE} />
+      </head>
+
       <body
         className={`${inter.variable} ${jetBrainsMono.variable} min-h-svh bg-background`}
       >
