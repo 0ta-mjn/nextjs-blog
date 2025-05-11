@@ -1,0 +1,37 @@
+{
+  "Home": {
+    "message": "{name} へようこそ！",
+    "blog": "ブログ",
+    "whoami": "自己紹介"
+  },
+  "About": {
+    "message": "{name} のプロフィールへようこそ！",
+    "realName": "太田 雄也",
+    "birthplace": "鳥取県, 日本",
+    "job": "ソフトウェアエンジニア、フルスタックWeb開発者",
+    "skills": "<strong>Webアプリケーション</strong>: TypeScript, React, Tailwind CSS など...<br></br><strong>バックエンド</strong>: Node.js, Nest.js, Python, REST API, Websocket など...<br></br><strong>インフラ</strong>: Docker, Firebase, Google Cloud, Cloudflare など...",
+    "academicQualification": "数理物理学. 名古屋大学多言数理研究科2019年修了.修士論文での受賞歴あり.",
+    "personalitySummary": "<p> 私の性格は深知的探究心と自律性が際立つ<strong>探究型の個人主義者</strong>と評価されます。<br></br>新技術や未知の分野を深掘りしながら、自分の裁量で物事を進める環境に最も力を発揮します: </p><ul><li><strong>飽くなき学習意欲と問題解決力</strong><br></br>新しいアイデアや難題にワクワクし、概念を分解してより賢いシステムを構築するのが好きです。</li><li><strong>自由度の高い自律性</strong><br></br>自分のペースや目標を設定する環境が得意で、リモートワークやプロトタイピング、素早いイテレーションに向いています。</li><li><strong>高い成果主義、低い官僚主義</strong><br></br>粘り強さと自己管理でプロジェクトを進めますが、硬直的なルールよりもアジャイルで軽快なプロセスを好みます。</li><li><strong>感情面への配慮と自己内省</strong><br></br>マインドフルな習慣でストレスを管理し、感受性をユーザー目線のプロダクト開発に活かします。</li><li><strong>厳選された協力体制</strong><br></br>広いネットワーキングよりも、深いパートナーシップや率直なフィードバックを重視し、伝統的なヒエラルキーには縛られません。</li><li><strong>誠実さとバランス</strong><br></br>正直さや信頼性、家族を大切にしながら、新しい技術やアイデアを追求する探究心を失いません。</li></ul>",
+    "neuroticism": "神経症傾向",
+    "extraversion": "外向性",
+    "openness": "開放性",
+    "agreeableness": "協調性",
+    "conscientiousness": "誠実性",
+    "realistic": "現実的",
+    "investigative": "探究心",
+    "artistic": "芸術性",
+    "social": "社会性",
+    "enterprising": "企業的",
+    "conventional": "伝統的",
+    "strength": "強み",
+    "weakness": "弱み",
+    "opportunity": "機会",
+    "threat": "脅威",
+    "swotStrengths": "<li>高い適応力</li> <li>強力な学習と集中力</li>",
+    "swotWeaknesses": "<li>目的のない作業を嫌う</li><li>コミュニティとの関わりが少ない</li>",
+    "swotOpportunities": "<li>LLMを活用したAIプロジェクト</li><li>自律性の高いリモートワーク</li>",
+    "swotThreats": "<li>完璧主義による遅延</li><li>ネットワーキング上の課題</li>",
+    "visionOverview": "<strong>IT × 数理モデル × 地方農業</strong> が中心です。<br></br>このロードマップは、過疎地域の社会課題を解決し、2035年までに持続可能な地域モデルを確立することを目指しています。",
+    "visionPhases": "<container> <h3>Phase 1 ― 基盤構築 <muted>～ 2027/05</muted></h3> <ul> <li>AI、IoT、数理モデルに関するオンラインコースをそれぞれ2つ以上修了</li> <li>自作のLoRa環境ロガーを構築し、LINE通知を検証</li> <li>10㎡の有機野菜畑から収穫ログを取得</li> </ul> </container> <container> <h3>Phase 2 ― 実装と協働 <muted>～ 2029/05</muted></h3> <ul> <li>主要なパートナーと共同し、スマート乾燥ラックのプロトタイプを開発</li> <li>年収500万円を得るフリーランス事業を確立</li> <li>30㎡で特産野菜を栽培し、直売イベントで販売</li> <li>古民家改修の3段階見積もりを策定</li> </ul> </container> <container> <h3>Phase 3 ― ソリューション開発 <muted>～ 2031/05</muted></h3> <ul> <li>3軒の農家と和紙工房でAIによる環境データ分析を実証</li> <li>GitHub Issuesを使った地域向け技術サポートシステムを運用</li> <li>古民家の大規模リフォームを完了し、Node-REDで自動化</li> </ul> </container> <container> <h3>Phase 4 ― コミュニティ貢献 <muted>～ 2033/05</muted></h3> <ul> <li>乾燥ラックとロガーを町内5事業者に導入し、年商200万円を達成</li> <li>野菜自給率50％、住宅の電力自給率30％を達成</li> <li>家族向けの共有可視化ダッシュボードを制作</li> </ul> </container> <container> <h3>Phase 5 ― インパクト拡大 <muted>～ 2035/05</muted></h3> <ul> <li>県外の少なくとも1地域へソリューションを展開</li> <li>古民家と農業モデルに関する書籍やメディア掲載を実現</li> <li>年間3人以上へ技術指導を行い、新たなプロジェクトを立ち上げ</li> <li>地域貢献型の収益とプロとしての活動で生活費を安定化</li> </ul> </container>"
+  }
+}

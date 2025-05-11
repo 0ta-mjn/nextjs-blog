@@ -1,8 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import Link from "next/link";
-import { BsGithub, BsMoon, BsSun, BsTwitterX } from "react-icons/bs";
+import { BsGithub, BsTwitterX } from "react-icons/bs";
 import { Button } from "./ui/button";
 import {
   DropdownMenuContent,
@@ -10,9 +9,12 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { usePathname } from "next/navigation";
 import { GITHUB_ACCOUNT_URL, SITE_TITLE, TWITTER_ACCOUNT_URL } from "@/const";
 import Logo from "./logo.svg";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { Languages, Moon, Sun } from "lucide-react";
+import { useParams } from "next/navigation";
+import { useCallback } from "react";
 
 export default function Header() {
   const pathname = usePathname();
@@ -36,10 +38,10 @@ export default function Header() {
         </Link>
 
         <nav className="flex flex-1 items-center gap-2 px-4">
-          <Route href="/blog" selected={pathname.startsWith("/blog")}>
+          <Route href={`/blog`} selected={pathname.includes("/blog")}>
             Blog
           </Route>
-          <Route href="/about" selected={pathname.startsWith("/about")}>
+          <Route href={`/about`} selected={pathname.includes("/about")}>
             About
           </Route>
         </nav>
@@ -68,6 +70,8 @@ export default function Header() {
           </a>
         </nav>
 
+        <LocaleToggle />
+
         <ModeToggle />
       </div>
     </header>
@@ -91,6 +95,41 @@ const Route = (props: {
   </Link>
 );
 
+const LocaleToggle = () => {
+  const pathname = usePathname();
+  const router = useRouter();
+  const params = useParams();
+  const setLocale = useCallback(
+    (locale: string) => {
+      router.replace(
+        // @ts-expect-error -- TypeScript will validate that only known `params`
+        { pathname, params },
+        { locale }
+      );
+    },
+    [pathname, params, router]
+  );
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <Languages className="size-[1.2rem]" />
+          <span className="sr-only">Toggle locale</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setLocale("en")}>
+          English
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setLocale("ja")}>
+          日本語
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
 const ModeToggle = () => {
   const { setTheme } = useTheme();
 
@@ -98,8 +137,8 @@ const ModeToggle = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon">
-          <BsSun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <BsMoon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <Sun className="size-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute size-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>

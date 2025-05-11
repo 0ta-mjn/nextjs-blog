@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { USERNAME } from "@/const";
 import { getAllCategories } from "@/lib/posts";
 import { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 export const metadata: Metadata = {
   title: `${USERNAME}'s Blog`,
@@ -11,10 +11,13 @@ export const metadata: Metadata = {
 
 export default async function PostsLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
-  const categories = await getAllCategories();
+  const { locale } = await params;
+  const categories = await getAllCategories(locale);
 
   return (
     <main className="container flex flex-col py-8 gap-6 px-4">

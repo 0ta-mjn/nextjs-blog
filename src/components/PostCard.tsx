@@ -9,9 +9,8 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { Link, useRouter } from "@/i18n/navigation";
 import { PostMeta } from "@/lib/posts";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 export default function PostCardList({ posts }: { posts: PostMeta[] }) {
   return posts.length > 0 ? (

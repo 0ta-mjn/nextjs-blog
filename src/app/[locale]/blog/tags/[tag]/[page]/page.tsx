@@ -2,31 +2,36 @@ import { getAllTags, getPostsFromTag } from "@/lib/posts";
 import { BLOG_LIST_PER_PAGE } from "@/const";
 import PostCardList from "@/components/PostCard";
 import PostPagination from "@/components/PostPagination";
+import { routing } from "@/i18n/routing";
 
 export async function generateStaticParams() {
-  const tags = await getAllTags();
-  const params: { page: string; tag: string }[] = [];
-  for (const tag of tags) {
-    const { data: posts } = await getPostsFromTag(tag);
-    params.push(
-      ...Array.from(
-        { length: Math.ceil(posts.length / BLOG_LIST_PER_PAGE) },
-        (_, i) => ({
-          page: (i + 1).toString(),
-          tag: tag,
+  return Promise.all(
+    routing.locales.map(async (locale) => {
+      const tags = await getAllTags(locale);
+      return Promise.all(
+        tags.map(async (tag) => {
+          const { data: posts } = await getPostsFromTag(locale, tag);
+          return Array.from(
+            { length: Math.ceil(posts.length / BLOG_LIST_PER_PAGE) },
+            (_, i) => ({
+              locale,
+              page: (i + 1).toString(),
+              tag: tag,
+            })
+          );
         })
-      )
-    );
-  }
-  return params;
+      ).then((params) => params.flat());
+    })
+  ).then((params) => params.flat());
 }
 
 export default async function PostsPage(props: {
-  params: Promise<{ page: string; tag: string }>;
+  params: Promise<{ page: string; tag: string; locale: string }>;
 }) {
-  const { page: p, tag } = await props.params;
+  const { page: p, tag, locale } = await props.params;
   const page = parseInt(p, 10);
   const { data: posts, total } = await getPostsFromTag(
+    locale,
     tag,
     page,
     BLOG_LIST_PER_PAGE

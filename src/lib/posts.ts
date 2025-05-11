@@ -28,14 +28,15 @@ type PostListResult = {
 };
 
 export async function getAllPosts(
+  lang: string,
   page?: number,
   limit?: number
 ): Promise<PostListResult> {
-  const { data: posts } = await getPosts();
+  const { data: posts } = await getPosts(lang);
 
-  const categories = await getAllCategories();
+  const categories = await getAllCategories(lang);
   for (const category of categories) {
-    const { data: postsInCategory } = await getPosts(category.name);
+    const { data: postsInCategory } = await getPosts(lang, category.name);
     posts.push(...postsInCategory);
   }
 
@@ -57,6 +58,7 @@ export async function getAllPosts(
 }
 
 export async function getPosts(
+  lang: string,
   category?: string,
   page?: number,
   limit?: number
@@ -66,7 +68,7 @@ export async function getPosts(
     : POSTS_DIR;
   const files = await fs.readdir(dir);
   const filesFiltered = files.filter(
-    (f) => f.endsWith(".md") || f.endsWith(".mdx")
+    (f) => (f.endsWith(".md") || f.endsWith(".mdx")) && f.includes(`.${lang}.`)
   );
   const posts = await Promise.all(
     filesFiltered.map<Promise<PostMeta>>(async (file) => {
@@ -75,7 +77,7 @@ export async function getPosts(
       const { data } = matter(raw);
       return {
         path: filename,
-        slug: file.replace(/\.mdx?$/, ""),
+        slug: file.replace(/\.mdx?$/, "").replace(`.${lang}`, ""),
         title: data.title,
         date: data.date,
         category: category,
@@ -102,11 +104,12 @@ export async function getPosts(
 }
 
 export async function getPostsFromTag(
+  lang: string,
   tag: string,
   page?: number,
   limit?: number
 ): Promise<PostListResult> {
-  const { data } = await getAllPosts();
+  const { data } = await getAllPosts(lang);
   const posts = data.filter((p) => p.tags?.includes(tag));
   const result =
     page != undefined && limit != undefined
@@ -128,14 +131,14 @@ export type CategoryData = {
   latestPost: PostMeta | null;
 };
 
-export async function getAllCategories(): Promise<CategoryData[]> {
+export async function getAllCategories(lang: string): Promise<CategoryData[]> {
   const files = await fs.readdir(POSTS_DIR);
   const categories = files
     .filter((f) => !f.includes("."))
     .map((f) => f.replace(POSTS_DIR, "").replace(/^\//, ""));
   const categoryMap = new Map<string, CategoryData>();
   for (const category of categories) {
-    const { data: posts } = await getPosts(category);
+    const { data: posts } = await getPosts(lang, category);
     const latestPost = posts[0] ?? null;
     categoryMap.set(category, {
       name: category,
@@ -148,8 +151,8 @@ export async function getAllCategories(): Promise<CategoryData[]> {
   return result;
 }
 
-export async function getAllTags(): Promise<string[]> {
-  const { data: posts } = await getAllPosts();
+export async function getAllTags(lang: string): Promise<string[]> {
+  const { data: posts } = await getAllPosts(lang);
   const tags = posts.reduce<string[]>((acc, { tags = [] }) => {
     for (const tag of tags) {
       if (!acc.includes(tag)) {
@@ -164,8 +167,8 @@ export async function getAllTags(): Promise<string[]> {
   return tags;
 }
 
-export async function getPost(slug: string): Promise<PostMeta> {
-  const { data: posts } = await getAllPosts();
+export async function getPost(lang: string, slug: string): Promise<PostMeta> {
+  const { data: posts } = await getAllPosts(lang);
   const post = posts.find((p) => p.slug === slug);
   if (!post) {
     throw new Error(`Post not found: ${slug}`);
@@ -173,8 +176,8 @@ export async function getPost(slug: string): Promise<PostMeta> {
   return post;
 }
 
-export async function getPostSource(slug: string) {
-  const post = await getPost(slug);
+export async function getPostSource(lang: string, slug: string) {
+  const post = await getPost(lang, slug);
   const source = await fs.readFile(post.path, "utf8");
   return { source, post };
 }

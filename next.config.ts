@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
+import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -15,6 +16,8 @@ const nextConfig: NextConfig = {
   },
 };
 
+const withNextIntl = createNextIntlPlugin();
+
 const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
@@ -22,4 +25,4 @@ const withMDX = createMDX({
     rehypePlugins: [rehypeHighlight],
   },
 });
-export default withMDX(nextConfig);
+export default withMDX(withNextIntl(nextConfig));

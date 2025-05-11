@@ -1,15 +1,27 @@
 import PostCardList from "@/components/PostCard";
-import TopTypewriter from "@/components/TopTypewriter";
+import TopTypewriter from "@/app/[locale]/TopTypewriter";
 import { Button } from "@/components/ui/button";
 import { SITE_TITLE } from "@/const";
 import { getAllPosts } from "@/lib/posts";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Logo from "@/components/logo.svg";
+import { getTranslations } from "next-intl/server";
 
 const LATEST_POSTS_COUNT = 12; // Number of latest posts to display
 
-export default async function Home() {
-  const { data: posts, hasNextPage } = await getAllPosts(0, LATEST_POSTS_COUNT);
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const { data: posts, hasNextPage } = await getAllPosts(
+    locale,
+    0,
+    LATEST_POSTS_COUNT
+  );
+
+  const t = await getTranslations("Home");
 
   return (
     <main className="container flex flex-col py-8 gap-6">
@@ -24,17 +36,21 @@ export default async function Home() {
           </div>
         </div>
 
-        <h1 className="text-5xl font-bold z-10">Welcome to {SITE_TITLE}</h1>
+        <h1 className="text-5xl font-bold z-10">
+          {t("message", {
+            name: SITE_TITLE,
+          })}
+        </h1>
 
         <TopTypewriter />
 
         <div className="flex items-center justify-center font-bold gap-6 z-10">
           <Link href="/blog">
-            <Button size="xl">Blog</Button>
+            <Button size="xl">{t("blog")}</Button>
           </Link>
 
           <Link href="/about">
-            <Button size="xl">About</Button>
+            <Button size="xl">{t("whoami")}</Button>
           </Link>
         </div>
       </section>

@@ -8,21 +8,26 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { mdxComponents } from "@/lib/mdx-components";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
+import { routing } from "@/i18n/routing";
 
 export async function generateStaticParams() {
-  const { data: posts } = await getAllPosts();
-  return posts.map((p) => ({ slug: p.slug }));
+  return Promise.all(
+    routing.locales.map(async (locale) => {
+      const { data: posts } = await getAllPosts(locale);
+      return posts.map((p) => ({ locale, slug: p.slug }));
+    })
+  ).then((params) => params.flat());
 }
 
 export default async function PostPage(props: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }) {
   const params = await props.params;
-  const { source, post } = await getPostSource(params.slug);
+  const { source, post } = await getPostSource(params.locale, params.slug);
 
   return (
     <main className="container flex flex-col py-8 gap-12 px-4">

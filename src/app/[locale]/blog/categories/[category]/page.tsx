@@ -6,14 +6,14 @@ import { BLOG_LIST_PER_PAGE } from "@/const";
 export const revalidate = false; // 完全 SSG
 
 export default async function CategoriesPage(props: {
-  params: Promise<{ category: string }>;
+  params: Promise<{ category: string; locale: string }>;
 }) {
-  const { category } = await props.params;
+  const { category, locale } = await props.params;
   const {
     data: posts,
     hasNextPage,
     total,
-  } = await getPosts(category, 0, BLOG_LIST_PER_PAGE);
+  } = await getPosts(locale, category, 0, BLOG_LIST_PER_PAGE);
   return (
     <>
       <PostCardList posts={posts} />

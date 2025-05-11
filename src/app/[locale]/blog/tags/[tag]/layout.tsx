@@ -1,7 +1,7 @@
 import { USERNAME } from "@/const";
 import { Metadata } from "next";
 import { getAllTags } from "@/lib/posts";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,12 +10,15 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { routing } from "@/i18n/routing";
 
 export async function generateStaticParams() {
-  const categories = await getAllTags();
-  return categories.map((t) => ({
-    tag: t,
-  }));
+  return Promise.all(
+    routing.locales.map(async (locale) => {
+      const categories = await getAllTags(locale);
+      return categories.map((t) => ({ locale, tag: t }));
+    })
+  ).then((params) => params.flat());
 }
 
 export const metadata: Metadata = {
