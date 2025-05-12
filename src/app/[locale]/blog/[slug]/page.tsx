@@ -8,7 +8,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Link } from "@/i18n/navigation";
 import { mdxComponents } from "@/lib/mdx-components";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
@@ -34,9 +33,7 @@ export default async function PostPage(props: {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/blog">Blog</Link>
-            </BreadcrumbLink>
+            <BreadcrumbLink href="/blog">Blog</BreadcrumbLink>
           </BreadcrumbItem>
 
           {post.category && (
@@ -44,12 +41,10 @@ export default async function PostPage(props: {
               <BreadcrumbSeparator />
 
               <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href={`/blog/categories/${post.category}`}>
-                    {/* capitalize */}
-                    {post.category.charAt(0).toUpperCase() +
-                      post.category.slice(1)}
-                  </Link>
+                <BreadcrumbLink href={`/blog/categories/${post.category}`}>
+                  {/* capitalize */}
+                  {post.category.charAt(0).toUpperCase() +
+                    post.category.slice(1)}
                 </BreadcrumbLink>
               </BreadcrumbItem>
             </>

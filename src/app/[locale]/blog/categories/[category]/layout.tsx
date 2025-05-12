@@ -1,6 +1,5 @@
 import { USERNAME } from "@/const";
 import { Metadata } from "next";
-import { Link } from "@/i18n/navigation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -42,9 +41,7 @@ export default async function CategoriesLayout({
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/blog">Blog</Link>
-            </BreadcrumbLink>
+            <BreadcrumbLink href="/blog">Blog</BreadcrumbLink>
           </BreadcrumbItem>
 
           <BreadcrumbSeparator />
