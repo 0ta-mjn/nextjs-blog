@@ -1,6 +1,6 @@
 {
   "Home": {
-    "message": "{name} へようこそ！",
+    "message": "{username}'s Lab へようこそ！",
     "blog": "ブログ",
     "whoami": "自己紹介"
   },
@@ -33,5 +33,18 @@
     "swotThreats": "<li>完璧主義による遅延</li><li>ネットワーキング上の課題</li>",
     "visionOverview": "<strong>IT × 数理モデル × 地方農業</strong> が中心です。<br></br>このロードマップは、過疎地域の社会課題を解決し、2035年までに持続可能な地域モデルを確立することを目指しています。",
     "visionPhases": "<container> <h3>Phase 1 ― 基盤構築 <muted>～ 2027/05</muted></h3> <ul> <li>AI、IoT、数理モデルに関するオンラインコースをそれぞれ2つ以上修了</li> <li>自作のLoRa環境ロガーを構築し、LINE通知を検証</li> <li>10㎡の有機野菜畑から収穫ログを取得</li> </ul> </container> <container> <h3>Phase 2 ― 実装と協働 <muted>～ 2029/05</muted></h3> <ul> <li>主要なパートナーと共同し、スマート乾燥ラックのプロトタイプを開発</li> <li>年収500万円を得るフリーランス事業を確立</li> <li>30㎡で特産野菜を栽培し、直売イベントで販売</li> <li>古民家改修の3段階見積もりを策定</li> </ul> </container> <container> <h3>Phase 3 ― ソリューション開発 <muted>～ 2031/05</muted></h3> <ul> <li>3軒の農家と和紙工房でAIによる環境データ分析を実証</li> <li>GitHub Issuesを使った地域向け技術サポートシステムを運用</li> <li>古民家の大規模リフォームを完了し、Node-REDで自動化</li> </ul> </container> <container> <h3>Phase 4 ― コミュニティ貢献 <muted>～ 2033/05</muted></h3> <ul> <li>乾燥ラックとロガーを町内5事業者に導入し、年商200万円を達成</li> <li>野菜自給率50％、住宅の電力自給率30％を達成</li> <li>家族向けの共有可視化ダッシュボードを制作</li> </ul> </container> <container> <h3>Phase 5 ― インパクト拡大 <muted>～ 2035/05</muted></h3> <ul> <li>県外の少なくとも1地域へソリューションを展開</li> <li>古民家と農業モデルに関する書籍やメディア掲載を実現</li> <li>年間3人以上へ技術指導を行い、新たなプロジェクトを立ち上げ</li> <li>地域貢献型の収益とプロとしての活動で生活費を安定化</li> </ul> </container>"
+  },
+  "Metadata": {
+    "homeTitle": "{username}'s Lab",
+    "homeDescription": "{username}'s Labへようこそ。{username}'s Labでは、AIやIoT関連のテック系記事や定期的に配信される農業ブログ、さらに個人のキャリアに関する情報を発信しています。ぜひご覧ください。",
+    "aboutTitle": "自己紹介 | {username}'s Lab",
+    "aboutDescription": "鳥取県出身のフルスタックWebエンジニア {username} のプロフィール。TypeScript/React・Firebaseなどで開発し、IT×数理モデルで地方農業課題を解決する2035年ビジョンと、探究心旺盛なパーソナリティを紹介。",
+    "categoryTitle": "{category} | {username}'s Blog",
+    "categoryDescription": "カテゴリー {category} の投稿。",
+    "tagTitle": "#{tag} | {username}'s Blog",
+    "tagDescription": "#{tag} タグの投稿。",
+    "postsTitle": "{username}'s Blog",
+    "postsDescription": "{username}'s Blogへようこそ。さまざまなトピックに関する投稿を見つけることができます。",
+    "postTitle": "{title} | {username}'s Blog"
   }
 }

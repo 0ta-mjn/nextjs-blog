@@ -1,13 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { USERNAME } from "@/const";
 import { getAllCategories } from "@/lib/posts";
-import { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
-
-export const metadata: Metadata = {
-  title: `${USERNAME}'s Blog`,
-  description: "A blog about my tech journey",
-};
 
 export default async function PostsLayout({
   children,
@@ -33,7 +27,7 @@ export default async function PostsLayout({
             className="text-sm text-muted-foreground hover:underline"
           >
             <Button variant="default">
-              {c.name} ({c.postCount})
+              {c.displayName} ({c.postCount})
             </Button>
           </Link>
         ))}

@@ -1,15 +1,35 @@
-import { AGE, BIRTH_DAY, SITE_TITLE, USERNAME, USERNAME_LONG } from "@/const";
+import {
+  AGE,
+  BIRTH_DAY,
+  USERNAME,
+  USERNAME_LONG,
+  USERNAME_SHORT,
+} from "@/const";
 import { Metadata } from "next";
 import Logo from "@/components/logo.svg";
 import PersonalityCharts from "@/app/[locale]/about/PersonalityCharts";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { Locale, useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: `About | ${SITE_TITLE}`,
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+  return {
+    title: t("aboutTitle", {
+      username: USERNAME_SHORT,
+    }),
+    description: t("aboutDescription", {
+      username: USERNAME,
+    }),
+  };
+}
 
 export default function AboutPage() {
   const t = useTranslations("About");

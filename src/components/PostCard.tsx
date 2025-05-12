@@ -48,13 +48,13 @@ function PostCard({ post }: { post: PostMeta }) {
         <CardFooter className="flex items-center gap-3">
           {post.category && (
             <Link
-              href={`/blog/categories/${post.category}`}
+              href={`/blog/categories/${post.category.name}`}
               onClick={(e) => {
                 e.stopPropagation();
               }}
             >
               <Button variant="outline" size="sm">
-                {post.category}
+                {post.category.displayName || post.category.name}
               </Button>
             </Link>
           )}

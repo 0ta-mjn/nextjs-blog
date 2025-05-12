@@ -12,6 +12,28 @@ import { mdxComponents } from "@/lib/mdx-components";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import { routing } from "@/i18n/routing";
+import { getTranslations } from "next-intl/server";
+import { Locale } from "next-intl";
+import { USERNAME_SHORT } from "@/const";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: Locale }>;
+}) {
+  const { slug, locale } = await params;
+  const { post } = await getPostSource(locale, slug);
+
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("postTitle", {
+      title: post.title,
+      username: USERNAME_SHORT,
+    }),
+    description: post.summary,
+  };
+}
 
 export async function generateStaticParams() {
   return Promise.all(
@@ -41,10 +63,9 @@ export default async function PostPage(props: {
               <BreadcrumbSeparator />
 
               <BreadcrumbItem>
-                <BreadcrumbLink href={`/blog/categories/${post.category}`}>
+                <BreadcrumbLink href={`/blog/categories/${post.category.name}`}>
                   {/* capitalize */}
-                  {post.category.charAt(0).toUpperCase() +
-                    post.category.slice(1)}
+                  {post.category.displayName || post.category.name}
                 </BreadcrumbLink>
               </BreadcrumbItem>
             </>

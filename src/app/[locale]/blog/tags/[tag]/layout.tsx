@@ -10,6 +10,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { routing } from "@/i18n/routing";
+import { getTranslations } from "next-intl/server";
+import { Locale } from "next-intl";
 
 export async function generateStaticParams() {
   return Promise.all(
@@ -20,9 +22,25 @@ export async function generateStaticParams() {
   ).then((params) => params.flat());
 }
 
-export const metadata: Metadata = {
-  title: ` | ${USERNAME}'s Blog`,
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ tag: string; locale: Locale }>;
+}): Promise<Metadata> {
+  const { tag, locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("tagTitle", {
+      tag,
+      username: USERNAME,
+    }),
+    description: t("tagDescription", {
+      tag,
+      username: USERNAME,
+    }),
+  };
+}
 
 export default async function CategoriesLayout({
   children,

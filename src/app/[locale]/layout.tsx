@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header"; // Headerコンポーネントをインポート
-import Footer from "@/components/Footer"; // Footerコンポーネントをインポート
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { ThemeProvider } from "next-themes";
-import { SITE_TITLE } from "@/const";
-import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { USERNAME_SHORT } from "@/const";
+import { hasLocale, Locale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -20,10 +20,23 @@ const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: SITE_TITLE,
-  description: "A blog about my tech journey",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("homeTitle", {
+      username: USERNAME_SHORT,
+    }),
+    description: t("homeDescription", {
+      username: USERNAME_SHORT,
+    }),
+  };
+}
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -44,10 +57,17 @@ export default async function RootLayout({
 
   setRequestLocale(locale);
 
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        <meta name="apple-mobile-web-app-title" content={SITE_TITLE} />
+        <meta
+          name="apple-mobile-web-app-title"
+          content={t("homeTitle", {
+            username: USERNAME_SHORT,
+          })}
+        />
       </head>
 
       <body

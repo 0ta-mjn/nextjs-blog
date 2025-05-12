@@ -1,7 +1,7 @@
 import PostCardList from "@/components/PostCard";
 import TopTypewriter from "@/app/[locale]/TopTypewriter";
 import { Button } from "@/components/ui/button";
-import { SITE_TITLE } from "@/const";
+import { USERNAME_SHORT } from "@/const";
 import { getAllPosts } from "@/lib/posts";
 import { Link } from "@/i18n/navigation";
 import Logo from "@/components/logo.svg";
@@ -38,7 +38,7 @@ export default async function Home({
 
         <h1 className="text-5xl font-bold z-10">
           {t("message", {
-            name: SITE_TITLE,
+            username: USERNAME_SHORT,
           })}
         </h1>
 

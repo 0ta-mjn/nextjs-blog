@@ -15,7 +15,7 @@ export type PostFrontmatter = {
 export type PostMeta = {
   slug: string;
   path: string;
-  category?: string;
+  category?: { name: string; displayName?: string };
 } & PostFrontmatter;
 
 const sortByDate = (posts: PostMeta[]) =>
@@ -70,6 +70,11 @@ export async function getPosts(
   const filesFiltered = files.filter(
     (f) => (f.endsWith(".md") || f.endsWith(".mdx")) && f.includes(`.${lang}.`)
   );
+  let categoryData: { name: string; displayName?: string } | undefined =
+    undefined;
+  if (category) {
+    categoryData = await getCategoryData(lang, category);
+  }
   const posts = await Promise.all(
     filesFiltered.map<Promise<PostMeta>>(async (file) => {
       const filename = path.join(dir, file);
@@ -80,7 +85,7 @@ export async function getPosts(
         slug: file.replace(/\.mdx?$/, "").replace(`.${lang}`, ""),
         title: data.title,
         date: data.date,
-        category: category,
+        category: categoryData,
         tags: data.tags,
         summary: data.summary ?? "",
       };
@@ -127,6 +132,7 @@ export async function getPostsFromTag(
 
 export type CategoryData = {
   name: string;
+  displayName?: string;
   postCount: number;
   latestPost: PostMeta | null;
 };
@@ -139,9 +145,13 @@ export async function getAllCategories(lang: string): Promise<CategoryData[]> {
   const categoryMap = new Map<string, CategoryData>();
   for (const category of categories) {
     const { data: posts } = await getPosts(lang, category);
+    if (posts.length === 0) {
+      continue;
+    }
+    const data = await getCategoryData(lang, category);
     const latestPost = posts[0] ?? null;
     categoryMap.set(category, {
-      name: category,
+      ...data,
       postCount: posts.length,
       latestPost,
     });
@@ -149,6 +159,23 @@ export async function getAllCategories(lang: string): Promise<CategoryData[]> {
   const result = Array.from(categoryMap.values());
   result.sort((a, b) => a.name.localeCompare(b.name));
   return result;
+}
+
+export async function getCategoryData(lang: string, name: string) {
+  try {
+    const file = await fs.readFile(
+      path.join(POSTS_DIR, name.replace(/^\//, ""), "category.json"),
+      "utf8"
+    );
+    const data = JSON.parse(file)[lang];
+    if (!data) {
+      throw new Error(`Category not found: ${name}`);
+    }
+    return { name, displayName: data.name };
+  } catch (error) {
+    console.error(`Error reading category data for ${name}:`, error);
+    return { name: name };
+  }
 }
 
 export async function getAllTags(lang: string): Promise<string[]> {

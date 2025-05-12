@@ -9,15 +9,21 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { GITHUB_ACCOUNT_URL, SITE_TITLE, TWITTER_ACCOUNT_URL } from "@/const";
+import {
+  GITHUB_ACCOUNT_URL,
+  TWITTER_ACCOUNT_URL,
+  USERNAME_SHORT,
+} from "@/const";
 import Logo from "./logo.svg";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { Languages, Moon, Sun } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useCallback } from "react";
+import { useTranslations } from "next-intl";
 
 export default function Header() {
   const pathname = usePathname();
+  const t = useTranslations("Metadata");
 
   return (
     <header className="flex w-full items-center justify-center px-4 sticky top-0 z-50 bg-header/60 backdrop-blur border-b border-b-muted">
@@ -33,7 +39,9 @@ export default function Header() {
           </div>
 
           <span className="text-xl font-semibold hidden md:inline">
-            {SITE_TITLE}
+            {t("homeTitle", {
+              username: USERNAME_SHORT,
+            })}
           </span>
         </Link>
 

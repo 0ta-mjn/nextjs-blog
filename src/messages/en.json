@@ -1,6 +1,6 @@
 {
   "Home": {
-    "message": "Welcome to {name}!",
+    "message": "Welcome to {username}'s Lab!",
     "blog": "Blog",
     "whoami": "Who am I?"
   },
@@ -33,5 +33,18 @@
     "swotThreats": "<li>Perfectionism delays</li><li>Networking challenges</li>",
     "visionOverview": "<strong>IT x Mathematical Models x Rural Agriculture</strong> is the core. <br></br> This roadmap addresses social issues in depopulated areas and establishes a self-sustaining and sustainable regional model by 2035.",
     "visionPhases": "<container> <h3>   Phase 1 ― Foundation Build   <muted>～ 2027/05</muted> </h3> <ul>   <li>     Complete at least two online courses each on AI, IoT, and     Mathematical Models   </li>   <li>     Build a homemade LoRa environmental logger and validate LINE     notifications   </li>   <li>Obtain harvest logs from a 10㎡ organic vegetable garden</li> </ul>           </container>           <container> <h3>   Phase 2 ― Implementation & Collaboration   <muted>～ 2029/05</muted> </h3> <ul>   <li>     Collaborate with key partners to develop a prototype smart     drying rack   </li>   <li>     Establish a freelance business earning an annual net income of 5     million yen   </li>   <li>     Grow specialty vegetables on 30㎡ and sell them at direct sales     events   </li>   <li>     Draft a three-stage estimate for renovating a traditional house   </li> </ul>           </container>           <container> <h3>   Phase 3 ― Solution Development   <muted>～ 2031/05</muted> </h3> <ul>   <li>     Demonstrate AI-driven environmental data analysis with three     farm households and a washi paper workshop   </li>   <li>Run a local technical support system using GitHub Issues</li>   <li>     Complete major remodeling of the old house and automate with     Node-RED   </li> </ul>           </container>           <container> <h3>   Phase 4 ― Community Contribution   <muted>～ 2033/05</muted> </h3> <ul>   <li>     Deploy drying racks and loggers to five businesses in town,     generating two million yen in annual revenue   </li>   <li>     Achieve 50% vegetable self-sufficiency and 30% residential power     self-sufficiency   </li>   <li>Create a shared visualization dashboard for the family</li> </ul>           </container>           <container> <h3>   Phase 5 ― Impact Expansion   <muted>～ 2035/05</muted> </h3> <ul>   <li>     Expand solutions to at least one region outside the prefecture   </li>   <li>     Publish a book or media feature on the traditional house and     farm model   </li>   <li>     Provide technical guidance to three or more people per year,     launching new projects   </li>   <li>     Secure stable living costs through community-oriented revenue     and professional activities   </li> </ul>          </container>"
+  },
+  "Metadata": {
+    "homeTitle": "{username}'s Lab",
+    "homeDescription": "Welcome to {username}'s Lab. {username}'s Lab provides AI and IoT related tech articles, regular agricultural blogs, and information on personal careers. Please take a look.",
+    "aboutTitle": "Who Am I ? | {username}'s Lab",
+    "aboutDescription": "Profile of {username}, a full-stack web engineer from Tottori, Japan. Skilled in TypeScript, React, Firebase, and more. Discover his inquisitive, autonomous personality and 2035 vision to solve rural agricultural challenges through IT and mathematical modeling.",
+    "categoryTitle": "{category} | {username}'s Blog",
+    "categoryDescription": "Posts in the {category} category.",
+    "tagTitle": "#{tag} | {username}'s Blog",
+    "tagDescription": "Posts tagged with #{tag}.",
+    "postsTitle": "{username}'s Blog",
+    "postsDescription": "Welcome to {username}'s blog. Here you can find posts about various topics.",
+    "postTitle": "{title} | {username}'s Blog"
   }
 }
