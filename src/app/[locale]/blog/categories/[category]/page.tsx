@@ -3,8 +3,6 @@ import PostCardList from "@/components/PostCard";
 import PostPagination from "@/components/PostPagination";
 import { BLOG_LIST_PER_PAGE } from "@/const";
 
-export const revalidate = false; // 完全 SSG
-
 export default async function CategoriesPage(props: {
   params: Promise<{ category: string; locale: string }>;
 }) {
@@ -14,6 +12,7 @@ export default async function CategoriesPage(props: {
     hasNextPage,
     total,
   } = await getPosts(locale, category, 0, BLOG_LIST_PER_PAGE);
+
   return (
     <>
       <PostCardList posts={posts} />

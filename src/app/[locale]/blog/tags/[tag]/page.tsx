@@ -3,8 +3,6 @@ import PostCardList from "@/components/PostCard";
 import PostPagination from "@/components/PostPagination";
 import { BLOG_LIST_PER_PAGE } from "@/const";
 
-export const revalidate = false; // 完全 SSG
-
 export default async function TagPage(props: {
   params: Promise<{ tag: string; locale: string }>;
 }) {
