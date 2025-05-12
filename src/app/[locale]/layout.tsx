@@ -9,6 +9,7 @@ import { hasLocale, Locale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -59,6 +60,10 @@ export default async function RootLayout({
 
   const t = await getTranslations({ locale, namespace: "Metadata" });
 
+  if (!process.env.NEXT_PUBLIC_GA_ID) {
+    throw new Error("GA ID is not set");
+  }
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
@@ -92,6 +97,8 @@ export default async function RootLayout({
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
+
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
     </html>
   );
 }
