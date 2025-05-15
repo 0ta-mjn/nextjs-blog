@@ -267,13 +267,13 @@
   /* Table */
   article table {
     @apply border-2;
-    @apply w-full;
-    @apply my-4;
+    @apply w-fit;
+    @apply max-w-full;
     @apply border-muted-foreground;
+    @apply my-2;
   }
   article th {
     @apply font-semibold;
-    @apply text-base;
     @apply bg-muted;
     @apply text-foreground;
     @apply border-muted-foreground;
@@ -283,13 +283,14 @@
     @apply text-left;
     @apply border-accent;
     @apply border-b;
-    @apply text-sm;
     @apply font-normal;
   }
   article th,
   article td {
     @apply text-left;
-    @apply p-2;
+    @apply py-1.5;
+    @apply px-3;
+    @apply text-sm;
     @apply leading-7;
     @apply border-x;
     @apply border-x-muted-foreground;
