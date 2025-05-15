@@ -15,23 +15,43 @@ import { routing } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import { Locale } from "next-intl";
 import { USERNAME_SHORT } from "@/const";
+import { Metadata } from "next";
+import Image from "next/image";
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string; locale: Locale }>;
-}) {
+}): Promise<Metadata> {
   const { slug, locale } = await params;
   const { post } = await getPostSource(locale, slug);
 
   const t = await getTranslations({ locale, namespace: "Metadata" });
 
+  const title = t("postTitle", {
+    title: post.title,
+    username: USERNAME_SHORT,
+  });
+  const description = post.summary;
+
   return {
-    title: t("postTitle", {
-      title: post.title,
-      username: USERNAME_SHORT,
-    }),
-    description: post.summary,
+    title,
+    description,
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      images: post.thumbnail
+        ? [
+            {
+              url: post.thumbnail,
+              width: 1280,
+              height: 720,
+              alt: post.title,
+            },
+          ]
+        : undefined,
+    },
   };
 }
 
@@ -86,6 +106,16 @@ export default async function PostPage(props: {
           </div>
 
           <h1>{post.title}</h1>
+
+          {post.thumbnail && (
+            <Image
+              src={post.thumbnail}
+              alt={post.title}
+              width={1024}
+              height={576}
+              className="w-full aspect-video object-cover rounded-xl"
+            />
+          )}
         </div>
 
         <div className="flex w-full flex-col gap-3">

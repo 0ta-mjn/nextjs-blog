@@ -29,13 +29,30 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
 
+  const title = t("homeTitle", {
+    username: USERNAME_SHORT,
+  });
+  const description = t("homeDescription", {
+    username: USERNAME_SHORT,
+  });
+
   return {
-    title: t("homeTitle", {
-      username: USERNAME_SHORT,
-    }),
-    description: t("homeDescription", {
-      username: USERNAME_SHORT,
-    }),
+    title,
+    description,
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      locale,
+      images: [
+        {
+          url: "/ogp.webp",
+          alt: title,
+          width: 1024,
+          height: 683,
+        },
+      ],
+    },
   };
 }
 

@@ -10,6 +10,7 @@ export type PostFrontmatter = {
   date: string; // ISO
   tags?: string[];
   summary: string;
+  thumbnail?: string;
 };
 
 export type PostMeta = {
@@ -88,6 +89,7 @@ export async function getPosts(
         category: categoryData,
         tags: data.tags,
         summary: data.summary ?? "",
+        thumbnail: data.thumbnail,
       };
     })
   );
