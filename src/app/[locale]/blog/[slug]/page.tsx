@@ -17,6 +17,7 @@ import { Locale } from "next-intl";
 import { USERNAME_SHORT } from "@/const";
 import { Metadata } from "next";
 import Image from "next/image";
+import mermaidPlugin from "mdx-mermaid"; // this might bring commonJS vs ESM problems, I am not 100% sure
 
 export async function generateMetadata({
   params,
@@ -125,7 +126,7 @@ export default async function PostPage(props: {
               parseFrontmatter: true,
               mdxOptions: {
                 rehypePlugins: [rehypeHighlight],
-                remarkPlugins: [remarkGfm],
+                remarkPlugins: [remarkGfm, mermaidPlugin],
               },
             }}
             components={mdxComponents}

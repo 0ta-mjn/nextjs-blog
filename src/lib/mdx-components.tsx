@@ -1,6 +1,5 @@
-// lib/mdx-components.tsx
-
 import { Link } from "@/i18n/navigation";
+import Mermaid from "@/lib/mdx-mermaid";
 
 export const mdxComponents = {
   a: (props: React.ComponentPropsWithoutRef<"a">) => (
@@ -11,4 +10,5 @@ export const mdxComponents = {
       rel="noopener noreferrer" // セキュリティ対策も同時に付与
     />
   ),
+  mermaid: Mermaid,
 } as const;
