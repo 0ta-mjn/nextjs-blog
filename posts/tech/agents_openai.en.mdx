@@ -6,9 +6,12 @@ summary: "This article explains the basic configuration, design, and best practi
 thumbnail: "/images/agents_openai.webp"
 ---
 
-This article summarizes the current configuration and practices for agents, referencing the official OpenAI agent guide below.
+> **TL;DR**
+> As AI agent-related projects are likely to increase in my work, I summarized the current configuration and practices for agents based on OpenAI's official agent guide.
+>
+> - [A practical guide to building agents - OpenAI](https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf)
 
-- [A practical guide to building agents - OpenAI](https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf)
+<br />
 
 ## What is an Agent?
 
@@ -16,13 +19,16 @@ While there are several patterns depending on the company, OpenAI defines them a
 
 > Agents are systems that independently accomplish tasks on your behalf.
 
-In other words, an agent is a **system that autonomously executes tasks independently of the user**. This definition does not include systems where the LLM does not make judgments or decisions to execute actions. For example, systems like RAG or those that execute actions according to predefined fixed rules are not called agents here. However, systems like Deep Research, where the LLM autonomously plans, searches, acts, and uses the results as feedback for further actions, are considered agents.
+In other words, an agent is a **system that autonomously executes tasks independently of the user**. This definition does not include systems where the LLM does not make judgments or decisions to execute actions. For example, systems like RAG<br />
+or those that execute actions according to predefined fixed rules are not called agents here. However, systems like Deep Research, where the LLM autonomously plans, searches, acts, and uses the results as feedback for further actions, are considered agents.
 
 Specifically, the following cases are introduced as application areas for agents:
 
 - **Complex decision-making**: When it's necessary to make decisions that depend on subtle judgments, exceptions, or ambiguous contexts.
 - **Workflows with difficult-to-maintain rules**: When processes proceed according to somewhat fixed rules, but system maintenance and management are difficult due to cost or complexity.
 - **Reliance on unstructured data**: When it's necessary to extract meaning from unstructured data or interact with usersconversationally.
+
+<br />
 
 ## Agent Design
 
@@ -122,6 +128,8 @@ flowchart LR
     Agent3 ==> O((Output))
 ```
 
+<br />
+
 ## Setting Up Guardrails
 
 Guardrails define rules and constraints to control an agent's behavior. This prevents the agent from performing inappropriate actions or causing unintended consequences.
@@ -135,6 +143,8 @@ The following are major guardrails:
 - **Tool Safeguards**: Evaluates the safety and reliability of tools used by the agent.
 - **Rule-based Guardrails**: Simple rules such as blocklists, input length restrictions, and regular expression filters.
 - **Output Validation**: Validates the agent's output to prevent harm to users or the brand.
+
+<br />
 
 ## Summary and Impressions
 

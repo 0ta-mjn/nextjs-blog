@@ -6,9 +6,12 @@ summary: "OpenAIの公式ガイドを参考に、AIエージェントの基本�
 thumbnail: "/images/agents_openai.webp"
 ---
 
-今回は以下の OpenAI 公式のエージェントガイドを参考に、現時点におけるエージェントの構成やプラクティスについてまとめてみた。
+> **TL;DR**
+> 本業で今後 AI エージェント関連のプロジェクトが増えそうなので、OpenAI 公式のエージェントガイドを参考に、現時点におけるエージェントの構成やプラクティスについてまとめてみた。
+>
+> - [A practical guide to building agents - OpenAI](https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf)
 
-- [A practical guide to building agents - OpenAI](https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf)
+<br />
 
 ## エージェントとは
 
@@ -23,6 +26,8 @@ thumbnail: "/images/agents_openai.webp"
 - **複雑な意思決定**: 微妙な判断、例外、曖昧なコンテキストに依存する意思決定を行う必要がある場合
 - **維持が難しいルール**のワークフロー: ある程度決まったルールで進行するが、コストや複雑さのためにシステムの維持や管理が難しい場合
 - **非構造化データに依存**: 非構造化データから意味を抽出したり、会話形式でユーザーとやり取りする必要がある場合
+
+<br />
 
 ## エージェントの設計
 
@@ -122,6 +127,8 @@ flowchart LR
     Agent3 ==> O((Output))
 ```
 
+<br />
+
 ## ガードレール(Guardrails)の設置
 
 ガードレールは、エージェントの振る舞いを制御するためのルールや制約を定義するものである。これにより、エージェントが不適切なアクションを実行したり、意図しない結果を引き起こすことを防ぐことができる。
@@ -135,6 +142,8 @@ flowchart LR
 - **ツールセーフガード (Tool Safeguards)**: エージェントが使用するツールの安全性と信頼性を評価する
 - **ルールベースのガードレール (Rule-based Guardrails)**: ブロックリスト、入力長の制限、正規表現フィルターなどの単純なルール
 - **出力検証 (Output Validation)**: ユーザーやブランドに害を及ぼすのを防ぐために、エージェントの出力を検証する
+
+<br />
 
 ## まとめと所感
 
