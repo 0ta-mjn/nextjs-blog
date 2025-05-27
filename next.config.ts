@@ -3,6 +3,7 @@ import createMDX from "@next/mdx";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import createNextIntlPlugin from "next-intl/plugin";
+import remarkMath from "remark-math";
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -49,7 +50,7 @@ const withNextIntl = createNextIntlPlugin();
 const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
-    remarkPlugins: [remarkGfm],
+    remarkPlugins: [remarkGfm, remarkMath],
     rehypePlugins: [rehypeHighlight],
   },
 });

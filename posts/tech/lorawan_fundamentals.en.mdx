@@ -1,0 +1,227 @@
+---
+title: "LoRaWAN Fundamentals: Technology Enabling Long-Range, Low-Power IoT Communication"
+date: "2025-05-27"
+tags: ["IoT"]
+summary: "LoRaWAN is a wireless communication protocol that achieves long-range communication with low power consumption and strong interference resistance. This article explains the basic concepts, communication methods, security, and best practices of LoRaWAN."
+thumbnail: "/images/lorawan_fundamentals.webp"
+---
+
+> **TL;DR**
+> To learn the fundamentals of IoT, I decided to start by learning the basics of LoRaWAN.
+> LoRaWAN is a wireless communication protocol that achieves long-range communication with low power consumption and strong interference resistance, widely used for IoT device communication.
+> This article summarizes what I learned about the basic concepts, communication methods, security, and best practices of LoRaWAN.
+
+<br />
+
+## What are LoRa and LoRaWAN
+
+LoRa (Long Range) is a wireless communication technology that enables long-range communication with low power consumption.
+LoRaWAN is a network protocol based on LoRa, widely used for IoT device communication due to its energy efficiency and flexibility.
+
+<br />
+
+## Communication Methods in LoRa
+
+LoRa uses a technology called **Chirp Spread Spectrum (CSS)** to achieve long-range communication with strong interference resistance.
+More specifically, CSS is also known as **Spread Spectrum Modulation**, which disperses signals over a wide bandwidth by linearly increasing or decreasing frequency.
+This wide dispersion creates characteristic patterns for each signal, making them resistant to interference.
+LoRa is also known to be resistant to the Doppler effect of electromagnetic waves.
+
+Furthermore, this mechanism is simple, allowing communication between devices and gateways using the same system.
+Specifically, communication from devices to gateways is called **Uplink**, while communication in the opposite direction is called **Downlink**.
+
+<br />
+
+### Spreading Factor (SF)
+
+**Spreading Factor (SF)** is an important parameter in LoRa communication that controls the data transmission rate.
+More formally defined, SF represents the number of bits per symbol.
+Therefore, the higher the SF, the lower the bit rate, resulting in slower communication speed and higher power consumption due to longer transmission times.
+On the other hand, higher SF allows signals to be transmitted over a wider bandwidth, enabling longer-range communication.
+
+| SF   | Communication Speed | Communication Range | Power Consumption |
+| ---- | ------------------- | ------------------- | ----------------- |
+| High | Slow                | Long                | High              |
+| Low  | Fast                | Short               | Low               |
+
+### Adaptive Data Rate (ADR)
+
+Since SF is an important parameter that controls the trade-off between communication efficiency and power consumption, LoRaWAN often uses an algorithm called **Adaptive Data Rate (ADR)**.
+ADR dynamically adjusts the device's SF by considering network conditions, particularly the Signal-to-Noise Ratio (SNR) and communication quality.
+This allows devices to select optimal SF values and optimize communication efficiency and power consumption.
+
+### Why LoRa is More Energy Efficient Than Other Communication Methods
+
+In wireless communication, electromagnetic waves propagate through air, causing signal attenuation.
+This signal attenuation is called **Free Space Path Loss (FSPL)** and is expressed by the following formula:
+
+$$
+FSPL(d) = 20 \log_{10}(d) + 20 \log_{10}(f) + K
+where d is distance, f is frequency, and K is a constant.
+$$
+
+Using FSPL, the energy received at the receiver can be quantitatively evaluated as follows:
+
+$$
+Received Energy = Transmitted Energy - FSPL + Transmit/Receive Antenna Gain + Other Losses
+$$
+
+In wireless communication, the energy received by the receiver must be greater than the receiver's sensitivity.
+Therefore, the difference between the received energy and receiver sensitivity represents the communication margin, called the **Link Budget**.
+A larger Link Budget means the communication is more stable.
+
+Generally, receiver sensitivity is determined by the communication method.
+Specifically, under the same Link Budget conditions, LoRa has lower receiver sensitivity compared to other communication methods such as Wi-Fi or Narrowband IoT (NB-IoT).
+Therefore, LoRa can achieve stable communication with less energy even in long-range communications where signal attenuation is significant.
+
+### Attenuation Due to Obstacles
+
+While LoRa's communication range can theoretically reach up to 850 km, in reality, it is typically 5-10 km due to the effects of attenuation, reflection, scattering from terrain and buildings, and Fresnel zone effects.
+Scientific studies have shown that LoRa performance improves under conditions with higher SF values.
+
+Since electromagnetic waves are attenuated by various factors, proper gateway placement is crucial.
+For example, the following guidelines exist:
+| Condition | Communication Range |
+| ---- | -------- |
+| Indoor | < 0.5 km |
+| Outdoor, house rooftop | 1-2 km |
+| Outdoor, tall building rooftop | > 10 km |
+
+### LoRa Limitations
+
+Each region has specific limitations for LoRa communication.
+
+Particularly in Japan, attention must be paid to the following:
+
+- Maximum dwell time (continuous signal transmission time) is 400 ms
+- LBT (Listen Before Talk, mechanism to check channel availability before transmission) implementation is required
+- No specific limitations on Duty Cycle (channel usage rate)
+
+<br />
+
+## Types of LoRaWAN
+
+LoRaWAN is a protocol for managing communication between devices and gateways, classified into the following three classes:
+
+| Class   | Power Consumption | Latency | Characteristics                                                                                     | Examples                                          |
+| ------- | ----------------- | ------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| Class A | Low               | High    | Transmission is initiated only by devices, and the network responds only after device transmission. | Pulse communication of sensors                    |
+| Class B | Medium            | Medium  | Transmission is initiated by devices or by the network at regular intervals.                        | Periodic communication like beacons               |
+| Class C | High              | Low     | Transmission is initiated by the network, and devices constantly listen for transmissions.          | Real-time communication like street light control |
+
+In LoRaWAN, transmission payload size is limited to about 51-222 bytes, and data rates are limited to, for example, a maximum of 5.5 kbps with 125kHz bandwidth.
+Therefore, data compression and efficient packet design are important during communication.
+However, these limitations vary by region, so it's necessary to comply with the regulations of the region being used.
+Also, note that communication is asynchronous, as Uplink generally has larger communication capacity than Downlink.
+
+<br />
+
+## LoRaWAN Security
+
+Since LoRa does not provide security at the physical layer, it's necessary to use LoRaWAN to ensure security.
+
+### LoRaWAN Sessions
+
+LoRaWAN provides security mechanisms from the following three perspectives:
+
+| Perspective         | Description                                                                    |
+| ------------------- | ------------------------------------------------------------------------------ |
+| **Authenticity**    | Authentication for the network to identify devices and authorize communication |
+| **Integrity**       | Mechanism to prevent tampering in intermediate paths                           |
+| **Confidentiality** | Data is encrypted to prevent eavesdropping within the network                  |
+
+Specifically, each session provides security at both network and application layers as follows:
+
+| Layer             | Assured Aspects           | Key Components                                                                                                                            |
+| ----------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Network Layer     | Authentication, Integrity | DevAddr (Device Address), NwkSKey (Network Session Key)<br/>FCntUp, FCntDown (Frame Counters)<br/>Mac State (channels, data rate, etc...) |
+| Application Layer | Confidentiality           | AppSKey (Application Session Key)<br/>FCntUp, FCntDown                                                                                    |
+
+LoRaWAN uses AES encryption, with different keys for network and application layers.
+Therefore, session keys remain fixed during each session.
+Frame counters are incremented with each transmission and reception.
+
+Also, note that since there's no security at the physical layer, the following metadata is always publicly available:
+
+| Metadata Name   | Description                      |
+| --------------- | -------------------------------- |
+| JoinEUI(AppEUI) | Pointer to Join server           |
+| DevEUI          | Device identifier                |
+| DevAddr         | Device address                   |
+| FCntUp,FCntDown | Frame counters                   |
+| Port Number     | Application layer port number    |
+| Payload Length  | Length of payload                |
+| MAC Commands    | Type and content of MAC commands |
+
+### Session Protocols
+
+The following two protocols are common in LoRaWAN:
+
+| Protocol Name                           | Description                                                                                                                                              | Characteristics                                                                                              |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **OTAA (Over-The-Air Activation)**      | Devices perform network joining procedures at session start<br/>Session keys are generated from root keys during joining, and the network issues DevAddr | Re-keying possible<br/>Devices can join any network<br/>High security                                        |
+| **ABP (Activation By Personalization)** | Devices use pre-configured DevAddr and session keys to join the network<br/>Network must be pre-configured, and session keys are fixed                   | Devices can only join specific networks<br/>Lower security due to fixed session keys<br/>Can save disk space |
+
+Unless there are specific restrictions, using OTAA is recommended.
+
+Root keys used in session key generation are generally provisioned from trusted Join Servers during device manufacturing.
+Therefore, it's important to **not share root keys with third parties or reuse them**.
+
+### Session Keys by Version
+
+LoRaWAN currently has two versions: 1.0 series and 1.1 series.
+Each version generates different session keys as follows:
+
+| Version | Root Key | Session Keys                         |
+| ------- | -------- | ------------------------------------ |
+| 1.0.x   | AppKey   | AppSKey, NwkSKey                     |
+| 1.1.x   | AppKey   | AppSKey                              |
+|         | NwkKey   | FNwkSIntKey, SNwkSIntKey, NwkSEncKey |
+
+In the 1.1 series, network session keys are split into three: FNwkSIntKey (Forwarding Network Session Integrity Key) and SNwkSIntKey (Serving Network Session Integrity Key) are used for security checks, while NwkSEncKey (Network Session Encryption Key) is used for encryption.
+
+The 1.1 series is more secure, but unfortunately, as of May 2025, it's not widely adopted yet.
+
+### Other Features
+
+LoRaWAN also provides other security features such as:
+
+- MAC commands for checking communication quality and availability
+- Mechanisms to confirm message delivery
+- Frame counters to prevent replay attacks (attacks that retransmit already received messages)
+- DevNounce to uniquely identify each join attempt
+
+<br />
+
+## Best Practices in LoRaWAN
+
+To improve performance in LoRaWAN communication, the following best practices exist:
+
+- Implement each device correctly according to LoRaWAN specifications.
+- Use OTAA whenever possible.
+- Avoid unnecessary join requests.
+- Set appropriate device transmission frequencies.
+- Keep transmission payloads as small as possible.
+- Be aware that packet loss is unavoidable.
+- Don't synchronize transmission timing of each device. Especially avoid transmitting at fixed times like 00:00.
+- When devices are stationary, use ADR to automatically adjust device SF.
+- Use device persistent memory to save states like session keys, frame counters, and DevNounce.
+- Assume communication loss only after about three or more acknowledgment losses. Don't assume device malfunction after a single response failure.
+
+<br />
+
+## Summary and Thoughts
+
+LoRa is a wireless communication technology that achieves long-range communication using Chirp Spread Spectrum (CSS), characterized by low energy consumption and high fault tolerance.
+However, since security is not provided at the physical layer, it's necessary to use the LoRaWAN protocol to ensure security.
+Specifically, session management through the network joining process with OTAA is common, providing security from the perspectives of authentication, integrity, and confidentiality.
+In LoRaWAN, it's important to implement with small data packets for long-range communication in mind, and attention must be paid to regional restrictions on Dwell Time and Duty Cycle.
+
+Through learning LoRaWAN, I believe I've gained the minimum knowledge of LoRaWAN communication.
+In the future, I want to pursue more in-depth learning about individual sensor and gateway implementations and actually build IoT systems using LoRaWAN.
+
+<br />
+
+## References
+
+- [LoRaWAN Fundamentals](https://www.udemy.com/course/lorawan-fundamentals/)
